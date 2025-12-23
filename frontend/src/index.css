@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+
+body {
+    font-family: "Lato", sans-serif;
+    width: 90%;
+    margin-inline: auto;
+}
+
+button {
+    cursor: pointer;
+}
+
+input,
+select, textarea {
+    width: auto !important;
+    outline: 0;
+}
+
+.map{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+
+@media screen and (min-width: 768px) {
+    body {
+        width: 85%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    body {
+        width: 80%;
+    }
+}
