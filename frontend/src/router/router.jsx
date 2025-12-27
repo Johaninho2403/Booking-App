@@ -7,6 +7,9 @@ import Agents from "../pages/Agents";
 import PropertiesList from "../pages/PropertiesList";
 import PropertyDetails from "../pages/PropertyDetails";
 import Profile from "../pages/Profile";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
+import UpdateProfile from "../pages/UpdateProfile";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +44,18 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
+      {
+        path: '/register',
+        element: <Register />
+      },
+      {
+        path: '/login',
+        element: <Login />
+      },
+      {
+        path:  '/profile/update',
+        element: <UpdateProfile />
+      }
     ],
   },
 ]);

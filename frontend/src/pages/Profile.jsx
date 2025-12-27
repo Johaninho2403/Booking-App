@@ -1,15 +1,26 @@
+import { useContext, useEffect } from "react";
 import { listData, userData } from "../assets/dummy-data";
 import Chat from "../components/Chat";
 import Message from "../components/Message";
 import PropertyCard from "../components/propertyCard";
+import { AppContext } from "../context/AppContextProvider";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
+  const {userInfo} = useContext(AppContext)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if(!userInfo){
+      navigate('/')
+    }
+  }, [userInfo])
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-2">
+    userInfo && <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-2">
       <div className="sm:h-[90vh] sm:overflow-y-auto">
         <div className="flex justify-between items-center">
           <h1 className="text-2xl ">User Information</h1>
-          <button className="bg-[#fece51] px-4 py-2">Update Profile</button>
+          <button className="bg-[#fece51] px-4 py-2" onClick={() => navigate('/profile/update')}>Update Profile</button>
         </div>
         <div className="flex flex-col gap-y-3 my-5">
           <div className="flex gap-4 items-center">
@@ -22,11 +33,11 @@ const Profile = () => {
           </div>
           <div className="flex gap-4 items-center">
             <span>Username:</span>
-            <span className="font-semibold">{userData.name}</span>
+            <span className="font-semibold">{userInfo.username}</span>
           </div>
           <div className="flex gap-4 items-center">
             <span>E-mail:</span>
-            <span className="font-semibold">{userData.email}</span>
+            <span className="font-semibold">{userInfo.email}</span>
           </div>
         </div>
         <div className="flex justify-between items-center">

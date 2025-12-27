@@ -1,12 +1,29 @@
 import React, { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { AppContext } from "../context/AppContextProvider";
-import { userData } from "../assets/dummy-data";
+import { toast } from "react-toastify";
+import axios from "../lib/axios";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { isAuth} = useContext(AppContext);
+  const { isAuth, backendUrl, setIsAuth, setUserInfo, userInfo } =
+    useContext(AppContext);
+
+  const handleLogout = async () => {
+    try {
+      const { data } = await axios.post(`${backendUrl}/api/auth/logout`);
+
+      if (data.success) {
+        toast.success(data.message);
+        localStorage.removeItem("userInfo");
+        setUserInfo(null);
+        setIsAuth(false);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <header className="grid grid-cols-[3fr_2fr] gap-2 justify-between items-center h-[10vh] sticky top-0 left-0 z-1 bg-white">
@@ -39,25 +56,47 @@ const Navbar = () => {
         <div className="justify-end gap-5 hidden md:flex items-center">
           {!isAuth ? (
             <>
-              <button className="transition-all duration-400 ease-initial hover:scale-105 ">
+              <button
+                className="transition-all duration-400 ease-initial hover:scale-105"
+                onClick={() => navigate("/login")}
+              >
                 Sign In
               </button>
-              <button className="bg-[#fece51] py-1 rounded-lg px-2 transition-all duration-400 ease-initial hover:scale-105">
+              <button
+                className="bg-[#fece51] py-1 rounded-lg px-2 transition-all duration-400 ease-initial hover:scale-105"
+                onClick={() => navigate("/register")}
+              >
                 Sign Up
               </button>
             </>
           ) : (
             <>
-              <img
-                src={userData.img}
-                alt="profile"
-                className="w-10 h-10 rounded-full object-cover"
-              />
-              <span>{userData.name}</span>
-              <div className="bg-[#fece51] cursor-pointer px-2 py-1 relative">
-                Profile
-                <span className="absolute bg-red-600 text-white flex justify-center items-center rounded-full w-5 h-5 -top-1.5 -right-1.5">3</span>
+              {userInfo?.avatar ? (
+                <img
+                  src={userInfo.avatar}
+                  alt="profile"
+                  className="w-10 h-10 rounded-full object-cover"
+                />
+              ) : (
+                <div className="w-10 h-10 rounded-full bg-orange-500 text-white flex justify-center items-center">
+                  {userInfo?.username[0].toUpperCase()}
                 </div>
+              )}
+              <button
+                className="bg-[#fece51] cursor-pointer px-2 py-1 rounded-md"
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
+              <Link
+                to={"/profile"}
+                className="bg-[#fece51] cursor-pointer px-2 py-1 relative rounded-md"
+              >
+                Profile
+                <span className="absolute bg-red-600 text-white flex justify-center items-center rounded-full w-5 h-5 -top-1.5 -right-1.5">
+                  3
+                </span>
+              </Link>
             </>
           )}
         </div>
