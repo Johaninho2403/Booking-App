@@ -10,7 +10,7 @@ const Map = ({places}) => {
   return (
     <div className="h-full">
       <MapContainer
-        center={[51.505, -0.09]}
+        center={[places[0].latitude, places[0].longitude]}
         zoom={7}
         scrollWheelZoom={false}
         className="map"

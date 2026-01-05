@@ -4,6 +4,8 @@ import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import authRouter from './routes/auth.routes'
 import errorMiddleware from './middlewares/error.middleware'
+import userRouter from './routes/user.routes'
+import postRouter from './routes/post.routes'
 const app = express()
 
 
@@ -14,6 +16,8 @@ app.use(cors({
     credentials: true
 }))
 app.use('/api/auth', authRouter)
+app.use('/api/user', userRouter)
+app.use('/api/post', postRouter)
 app.use(errorMiddleware)
 
 export default app

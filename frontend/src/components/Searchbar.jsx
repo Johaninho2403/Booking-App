@@ -1,13 +1,20 @@
 import React, { useState } from "react";
 import Counter from "./Counter";
+import { useNavigate } from "react-router-dom";
 
 const Searchbar = () => {
   const [query, setQuery] = useState({
     type: "buy",
-    location: "",
+    city: "",
     minPrice: "",
     maxPrice: "",
   });
+  const navigate = useNavigate()
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    navigate(`/properties-list?type=${query.type}&city=${query.city}&minPrice=${query.minPrice}&maxPrice=${query.maxPrice}`)
+  }
 
   return (
     <div>
@@ -41,16 +48,16 @@ const Searchbar = () => {
           Rent
         </div>
       </div>
-      <form className="sm:border border-slate-300 flex flex-col gap-y-1 sm:flex-row">
+      <form onSubmit={handleSubmit} className="sm:border border-slate-300 flex flex-col gap-y-1 sm:flex-row">
         <div className="flex flex-col sm:flex-row w-full gap-y-1">
           <input
             type="text"
             placeholder="City Location"
             className="w-full! px-2 border-slate-300 max-sm:border py-3"
-            value={query.location}
+            value={query.city}
             onChange={(e) =>
               setQuery((prev) => {
-                return { ...prev, location: e.target.value };
+                return { ...prev, city: e.target.value };
               })
             }
           />

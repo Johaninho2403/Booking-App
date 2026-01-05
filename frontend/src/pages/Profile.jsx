@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import { listData, userData } from "../assets/dummy-data";
+import { listData } from "../assets/dummy-data";
 import Chat from "../components/Chat";
 import Message from "../components/Message";
 import PropertyCard from "../components/propertyCard";
@@ -26,7 +26,7 @@ const Profile = () => {
           <div className="flex gap-4 items-center">
             <span>Avatar:</span>
             <img
-              src={userData.img}
+              src={userInfo.avatar || "no-avatar.jpg"}
               alt="profile"
               className="w-10 h-10 rounded-full object-cover"
             />
@@ -42,7 +42,7 @@ const Profile = () => {
         </div>
         <div className="flex justify-between items-center">
           <h1 className="text-2xl ">My List</h1>
-          <button className="bg-[#fece51] px-4 py-2">Add new post</button>
+          <button className="bg-[#fece51] px-4 py-2" onClick={() => navigate('/add-post')}>Add new post</button>
         </div>
         <div className="mt-10">
           {listData.slice(0, 4).map((item) => {
@@ -63,11 +63,11 @@ const Profile = () => {
           <div className="flex justify-between items-center bg-[#faecca]  px-2 py-2">
             <div className="flex gap-2 items-center">
               <img
-                src={userData.img}
+                src={userInfo.avatar}
                 alt="profile"
                 className="w-8 h-8 rounded-full object-cover"
               />
-              <span className="font-semibold">{userData.name}</span>
+              <span className="font-semibold">{userInfo.username}</span>
             </div>
             <span className="text-2xl cursor-pointer">X</span>
           </div>

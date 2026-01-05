@@ -19,7 +19,7 @@ const PropertyCard = (props) => {
         </h1>
         <div className="flex gap-1">
           <img src="/pin.png" alt="pin" className="w-4" />
-          <p className="text-sm text-slate-400">{props.address}</p>
+          <p className="text-sm text-slate-400">{props.adress}</p>
         </div>
         <span className="bg-[#FEE9B9] px-2 py-0.5 rounded-md self-start">
           $ {props.price}

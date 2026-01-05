@@ -10,6 +10,9 @@ import Profile from "../pages/Profile";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import UpdateProfile from "../pages/UpdateProfile";
+import AddPost from "../pages/AddPost";
+import { postDetailsLoader, propertiesLoader } from "../lib/loaders";
+import Loading from "../components/Loading";
 
 const router = createBrowserRouter([
   {
@@ -35,10 +38,13 @@ const router = createBrowserRouter([
       {
         path: "properties-list",
         element: <PropertiesList />,
+        loader: propertiesLoader,
       },
       {
         path: "property/:id",
         element: <PropertyDetails />,
+        loader: postDetailsLoader,
+        hydrateFallbackElement: <Loading />
       },
       {
         path: "/profile",
@@ -55,6 +61,10 @@ const router = createBrowserRouter([
       {
         path:  '/profile/update',
         element: <UpdateProfile />
+      },
+      {
+        path: '/add-post',
+        element: <AddPost />
       }
     ],
   },

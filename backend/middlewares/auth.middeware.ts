@@ -15,6 +15,8 @@ export const isAuth = asyncHandler(async (req: Request, res: Response, next: Nex
     }
 
     const {userId} = jwt.verify(token, String(process.env.JWT_SECRET_KEY))
+
+    req.userId = userId
     
     next()
 
