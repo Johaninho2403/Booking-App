@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 
 const PropertyCard = (props) => {
+
   return (
     <div className="flex flex-col md:flex-row my-5 gap-5 w-full">
       <Link
         to={`/property/${props.id}`}
-        className=" w-full sm:w-95 h-40 rounded-lg overflow-hidden"
+        className="w-full sm:w-95 h-40 rounded-lg overflow-hidden"
       >
         <img
           src={props.images[0]}

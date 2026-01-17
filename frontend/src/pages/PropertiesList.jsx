@@ -2,33 +2,37 @@ import PropertyCard from "../components/propertyCard";
 import Map from "../components/Map";
 import { Await, useLoaderData, useSearchParams } from "react-router-dom";
 import { Suspense, useState } from "react";
+import { Skeleton } from "@mui/material";
+import ListPageSkeleton from "../components/ListPageSkeleton";
 const PropertiesList = () => {
   const { promise } = useLoaderData();
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams, setSearchParams] = useSearchParams();
   const [query, setQuery] = useState({
     city: searchParams.get("city") || "",
     type: searchParams.get("type") || "",
     property: searchParams.get("property") || "",
     minPrice: searchParams.get("minPrice") || 0,
     maxPrice: searchParams.get("maxPrice") || "",
-    bedroom: searchParams.get("bedroom") || 1
-  })
+    bedroom: searchParams.get("bedroom") || 1,
+  });
 
   const handleChange = (e) => {
     setQuery({
       ...query,
-      [e.target.name]: e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    setSearchParams(query)
-  }
+    e.preventDefault();
+    setSearchParams(query);
+  };
   return (
     <div className="grid grid-cols-1 md:grid-cols-[3fr_2fr] gap-2">
       <div className="max-h-[90vh] overflow-y-auto">
-        <h1 className="text-[22px] font-normal">Search results for {query.city}</h1>
+        <h1 className="text-[22px] font-normal">
+          Search results for {query.city}
+        </h1>
         <form onSubmit={handleSubmit}>
           <label htmlFor="city" className="block">
             Location
@@ -69,6 +73,7 @@ const PropertiesList = () => {
               >
                 <option value="">Any</option>
                 <option value="apartment">Apartment</option>
+                <option value="house">House</option>
                 <option value="condo">Condo</option>
                 <option value="land">Land</option>
               </select>
@@ -109,8 +114,8 @@ const PropertiesList = () => {
               </label>
               <input
                 type="number"
-                name="bedrooms"
-                id="bedrooms"
+                name="bedroom"
+                id="bedroom"
                 className="border border-slate-300 px-2 py-1 w-full!"
                 placeholder="Bedrooms"
                 min={1}
@@ -123,14 +128,14 @@ const PropertiesList = () => {
             </button>
           </div>
         </form>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<ListPageSkeleton />}>
           <Await
             resolve={promise}
             errorElement={<div>Error Loading Element</div>}
           >
             {({ data }) => {
               return (
-                 <div className="mt-5">
+                <div className="mt-5">
                   {data.posts.map((item) => {
                     return <PropertyCard {...item} key={item.id} />;
                   })}
@@ -141,7 +146,10 @@ const PropertiesList = () => {
         </Suspense>
       </div>
       {/*  */}
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense
+        className="h-[90vh]"
+        fallback={<Skeleton variant="rectangle" height={"100%"} />}
+      >
         <Await
           resolve={promise}
           errorElement={<div>Error Loading Elemenet</div>}
@@ -149,7 +157,7 @@ const PropertiesList = () => {
           {({ data }) => {
             return (
               data.posts.length > 0 && (
-                <div className="h-[90vh]">
+                <div className="sm:h-[90vh] h-100">
                   <Map places={data.posts} />
                 </div>
               )

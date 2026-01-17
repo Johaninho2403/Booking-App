@@ -1,8 +1,7 @@
 import React, { useContext } from "react";
 import { AppContext } from "../context/AppContextProvider";
-import { singlePostData } from "../assets/dummy-data";
 
-const Slider = () => {
+const Slider = ({images}) => {
   const { currentImage, showSlider, setShowSlider, setCurrentImage } =
     useContext(AppContext);
   return (
@@ -25,7 +24,7 @@ const Slider = () => {
           }}
         />
         <img
-          src={singlePostData.images[currentImage]}
+          src={images[currentImage]}
           alt="property"
           className="w-3/4 h-[50vh] sm:h-[75vh] object-cover"
         />
@@ -33,12 +32,12 @@ const Slider = () => {
           src="/arrow.png"
           alt="arrow"
           className={`w-5 sm:w-10 rotate-180  ${
-            currentImage === singlePostData.images.length - 1
+            currentImage === images.length - 1
               ? "opacity-30 cursor-auto"
               : "cursor-pointer"
           }`}
           onClick={() => {
-            currentImage < singlePostData.images.length - 1 &&
+            currentImage < images.length - 1 &&
               setCurrentImage((prev) => prev + 1);
           }}
         />

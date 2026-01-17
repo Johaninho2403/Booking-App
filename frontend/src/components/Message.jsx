@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { AppContext } from '../context/AppContextProvider';
+import {format} from 'timeago.js'
 
-const Message = ({index}) => {
+const Message = ({text, userId, createdAt}) => {
+  const {userInfo} = useContext(AppContext)
   return (
     <div className='flex flex-col text-sm'>
-      <div className="py-1rounded-md">Lorem ipsum dolor sit amet.</div>
-      <span className={`bg-[#fcf5f3] px-px py-px rounded-sm ${index % 2 == 0 ? "self-start" : "self-end"}`}>1 Hour Ago</span>
+      <div className="py-1rounded-md">{text}</div>
+      <span className={`bg-[#fcf5f3] px-px py-px rounded-sm ${userId !== userInfo.id ? "self-start" : "self-end"}`}>{format(createdAt)}</span>
     </div>
   );
 }

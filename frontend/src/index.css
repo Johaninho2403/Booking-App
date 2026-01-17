@@ -28,6 +28,10 @@ label{
     min-height: 80px;
 }
 
+/* .MuiSkeleton-root{
+    height: 100% !important;
+} */
+
 @media screen and (min-width: 768px) {
     body {
         width: 85%;

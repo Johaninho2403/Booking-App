@@ -2,6 +2,7 @@ import asyncHandler from 'express-async-handler'
 import prisma from '../lib/prima'
 import { Request, Response, NextFunction } from 'express'
 import cloudinary from '../lib/cloudinary'
+import jwt from 'jsonwebtoken'
 
 export const getPosts = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const {type, city, minPrice, maxPrice, property, bedroom} = req.query
@@ -10,7 +11,7 @@ export const getPosts = asyncHandler(async (req: Request, res: Response, next: N
         where: {
             type: type || undefined,
             city: {
-                contains: String(city) || undefined
+                contains: city || ""
             },
             property: property || undefined,
             price: {
@@ -22,8 +23,8 @@ export const getPosts = asyncHandler(async (req: Request, res: Response, next: N
             }
         }
     })
-
-    res.status(200).json({
+    
+        res.status(200).json({
         success: true,
         posts
     })
@@ -49,9 +50,27 @@ export const getPost = asyncHandler(async (req: Request, res: Response, next: Ne
         throw new Error("Post not found")
     }
 
+    const {token} = req.cookies
+    let saved = false
+
+    if(token){
+        const {userId} = jwt.verify(token, String(process.env.JWT_SECRET_KEY))
+        const existingSavedPost = await prisma.savedPost.findUnique({
+            where: {
+                userId_postId: {
+                    userId,
+                    postId: post.id
+                }
+            }
+        })
+        if(existingSavedPost){
+            saved = true
+        }
+    }
     res.status(200).json({
         success: true,
-        post
+        post,
+        saved
     })
 })
 

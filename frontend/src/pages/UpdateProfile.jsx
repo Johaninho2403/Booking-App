@@ -27,7 +27,7 @@ const Register = () => {
         avatar: userInfo.avatar,
       });
     }
-  }, [isAuth, userInfo]);
+  }, [isAuth, userInfo, navigate]);
 
   const handleSubmit = async (e) => {
     try {

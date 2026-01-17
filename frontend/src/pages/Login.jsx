@@ -36,9 +36,9 @@ const Login = () => {
 
       if (data.success) {
         toast.success(data.message);
-        localStorage.setItem("userInfo", JSON.stringify(data.userInfo))
-        setIsAuth(true)
-        navigate("/");
+        localStorage.setItem("userInfo", JSON.stringify(data.userInfo));
+        setIsAuth(true);
+        navigate(-1);
       } else {
         throw new Error(data.message);
       }
@@ -54,7 +54,6 @@ const Login = () => {
         className="flex flex-col gap-y-4 w-full max-w-75"
       >
         <h1 className="text-[28px] font-semibold">Welcome Back</h1>
-
         <input
           type="email"
           placeholder="Email"

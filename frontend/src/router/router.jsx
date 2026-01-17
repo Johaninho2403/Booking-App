@@ -11,7 +11,7 @@ import Register from "../pages/Register";
 import Login from "../pages/Login";
 import UpdateProfile from "../pages/UpdateProfile";
 import AddPost from "../pages/AddPost";
-import { postDetailsLoader, propertiesLoader } from "../lib/loaders";
+import { postDetailsLoader, profileLoader, propertiesLoader } from "../lib/loaders";
 import Loading from "../components/Loading";
 
 const router = createBrowserRouter([
@@ -44,28 +44,28 @@ const router = createBrowserRouter([
         path: "property/:id",
         element: <PropertyDetails />,
         loader: postDetailsLoader,
-        hydrateFallbackElement: <Loading />
       },
       {
         path: "/profile",
         element: <Profile />,
+        loader: profileLoader,
       },
       {
-        path: '/register',
-        element: <Register />
+        path: "/register",
+        element: <Register />,
       },
       {
-        path: '/login',
-        element: <Login />
+        path: "/login",
+        element: <Login />,
       },
       {
-        path:  '/profile/update',
-        element: <UpdateProfile />
+        path: "/profile/update",
+        element: <UpdateProfile />,
       },
       {
-        path: '/add-post',
-        element: <AddPost />
-      }
+        path: "/add-post",
+        element: <AddPost />,
+      },
     ],
   },
 ]);

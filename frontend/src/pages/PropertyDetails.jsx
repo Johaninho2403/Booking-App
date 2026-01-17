@@ -1,12 +1,34 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Map from "../components/Map";
 import { AppContext } from "../context/AppContextProvider";
 import Slider from "../components/Slider";
-import { useLoaderData } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
+import {toast} from 'react-toastify'
+import axios from '../lib/axios'
 
 const PropertyDetails = () => {
   const { setCurrentImage, setShowSlider, showSlider } = useContext(AppContext);
-  const post = useLoaderData();
+  const {post, saved} = useLoaderData();
+  const [isSaved, setIsSaved] = useState(saved)
+  const {backendUrl} = useContext(AppContext)
+  const {id} = useParams()
+  const navigate = useNavigate()
+  const handleSaved = async () => {
+    
+    try {
+      const {data} = await axios.post(`${backendUrl}/api/user/save-post/${id}`)
+
+      if(data.success){
+        toast.success(data.message)
+        setIsSaved(!isSaved)
+      }else{
+        navigate('/login')
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+  }
+  
 
   return (
     post && (
@@ -14,7 +36,7 @@ const PropertyDetails = () => {
         <div className="grid grid-cols-1 sm:grid-cols-[3fr_2fr] gap-2">
           <div className="sm:h-[90vh] sm:overflow-y-auto">
             <div className="grid grid-cols-[3fr_1fr] gap-4">
-              <div className="rounded-lg overflow-hidden">
+              <div className="rounded-lg overflow-hidden h-70">
                 <img
                   src={post.images[0]}
                   alt="property"
@@ -183,14 +205,19 @@ const PropertyDetails = () => {
                 <img src="/chat.png" alt="chat" className="w-4 h-4" />
                 Send Message
               </button>
-              <button className="flex justify-center items-center gap-1 bg-white px-3 py-3 border border-amber-300">
+              <button
+                className={`flex justify-center items-center gap-1 ${
+                  isSaved ? "bg-amber-300" : " bg-white"
+                } px-3 py-3 border border-amber-300`}
+                onClick={handleSaved}
+              >
                 <img src="/save.png" alt="save" className="w-4 h-4" />
-                Save the place
+                {isSaved ? "Place saved" : "Save the place"}
               </button>
             </div>
           </div>
         </div>
-        <Slider />
+        <Slider images={post.images}/>
       </div>
     )
   );

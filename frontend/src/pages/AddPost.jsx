@@ -1,9 +1,9 @@
 import React, { useState, useRef, useContext } from "react";
 import Editor from "../components/Editor";
 import Quill from "quill";
-import axios from '../lib/axios'
-import {AppContext} from '../context/AppContextProvider'
-import {toast} from 'react-toastify'
+import axios from "../lib/axios";
+import { AppContext } from "../context/AppContextProvider";
+import { toast } from "react-toastify";
 
 const AddPost = () => {
   const [images, setImages] = useState({
@@ -13,7 +13,7 @@ const AddPost = () => {
     image4: "",
   });
 
-  const {backendUrl} = useContext(AppContext)
+  const { backendUrl } = useContext(AppContext);
 
   const Delta = Quill.import("delta");
 
@@ -42,20 +42,21 @@ const AddPost = () => {
         }
       );
 
-      if(data.success){
-        toast.success(data.message)
+      if (data.success) {
+        toast.success(data.message);
         setImages({
           image1: "",
           image2: "",
           image3: "",
           image4: "",
         });
-        quillRef.current.root.innerText = ""
-      }else{
-        throw new Error(data.message)
+        quillRef.current.root.innerText = "";
+      } else {
+        throw new Error(data.message);
       }
     } catch (error) {
-      toast.error(error.message)
+      console.log(error);
+      toast.error(error.message);
     }
   };
 
@@ -250,7 +251,11 @@ const AddPost = () => {
             </div>
             <div className="flex flex-col w-full">
               <label htmlFor="type">Type</label>
-              <select className="border w-full! py-2 rounded-md" id="type" name="type">
+              <select
+                className="border w-full! py-2 rounded-md"
+                id="type"
+                name="type"
+              >
                 <option value="rent">Rent</option>
                 <option value="buy">Buy</option>
               </select>
@@ -283,7 +288,11 @@ const AddPost = () => {
             </div>
             <div className="flex flex-col w-full">
               <label htmlFor="pet">Pet Policy</label>
-              <select name="pet" id="pet" className="border w-full! py-2 rounded-md">
+              <select
+                name="pet"
+                id="pet"
+                className="border w-full! py-2 rounded-md"
+              >
                 <option value="allowed">Allowed</option>
                 <option value="not-allowed">Not Allowed</option>
               </select>
@@ -338,7 +347,9 @@ const AddPost = () => {
                 className="border w-full! py-2 rounded-md"
               />
             </div>
-            <button className="w-full bg-[#018081] text-white rounded-md">Update</button>
+            <button className="w-full bg-[#018081] text-white rounded-md">
+              Update
+            </button>
           </div>
         </form>
       </div>
